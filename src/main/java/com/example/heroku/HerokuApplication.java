@@ -53,13 +53,13 @@ public class HerokuApplication {
     return "index";
   }
 
-  public getRandomString() {
+  public String getRandomString() {
     String AlphaNumericString = "abcdefghijklmnopqrstuvxyz"; 
  
     // create StringBuffer size of AlphaNumericString 
-    StringBuilder sb = new StringBuilder(n); 
+    StringBuilder sb = new StringBuilder(10); 
  
-    for (int i = 0; i < n; i++) { 
+    for (int i = 0; i < 10; i++) { 
  
    // generate a random number between 
    // 0 to AlphaNumericString variable length 
