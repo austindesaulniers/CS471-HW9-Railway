@@ -80,8 +80,8 @@ public class HerokuApplication {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS table_timestamp_and_random_string (tick timestamp, random_string varchar(30))");
-      stmt.executeUpdate("INSERT INTO table_timestamp_and_random_string VALUES (Instant.now().truncatedTo(ChronoUnit.MILLIS), '" + getRandomString() + "')");
-      ResultSet rs = stmt.executeQuery("SELECT tick, random_string FROM table_timestamp_and_random_string");
+      stmt.executeUpdate("INSERT INTO table_timestamp_and_random_string VALUES (now(), '" + getRandomString() + "')");
+      ResultSet rs = stmt.executeQuery("SELECT (DATE_TRUNC('millisecond', tick), random_string FROM table_timestamp_and_random_string");
 
       ArrayList<String> output = new ArrayList<String>();
       while (rs.next()) {
