@@ -53,17 +53,39 @@ public class HerokuApplication {
     return "index";
   }
 
+  public getRandomString() {
+    String AlphaNumericString = "abcdefghijklmnopqrstuvxyz"; 
+ 
+    // create StringBuffer size of AlphaNumericString 
+    StringBuilder sb = new StringBuilder(n); 
+ 
+    for (int i = 0; i < n; i++) { 
+ 
+   // generate a random number between 
+   // 0 to AlphaNumericString variable length 
+   int index 
+    = (int)(AlphaNumericString.length() 
+      * Math.random()); 
+ 
+   // add Character one by one in end of sb 
+   sb.append(AlphaNumericString 
+      .charAt(index)); 
+  } 
+ 
+  return sb.toString(); 
+ } 
+
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
-      stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
-      ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS table_timestamp_and_random_string (tick timestamp, random_string varchar(30))");
+      stmt.executeUpdate("INSERT INTO table_timestamp_and_random_string VALUES (now(), '" + getRandomString() + "')");
+      ResultSet rs = stmt.executeQuery("SELECT tick, random_string FROM table_timestamp_and_random_string");
 
       ArrayList<String> output = new ArrayList<String>();
       while (rs.next()) {
-        output.add("Read from DB: " + rs.getTimestamp("tick"));
+        output.add("Read from DB: " + rs.getTimestamp("tick") + rs.getString("random_string"));
       }
 
       model.put("records", output);
